@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "should be able to create user" do
+    User.create(:first_name => "Bob", :last_name => "Dylan", :hobby => "Signing").should be_true
+  end
 end
