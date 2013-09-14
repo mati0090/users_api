@@ -1,7 +1,4 @@
-users_api
-=====
-
-== Usage
+## Usage
 
 To create databases:
     `rake db:migrate && rake db:test:prepare`
