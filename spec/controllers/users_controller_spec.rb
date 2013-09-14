@@ -42,6 +42,13 @@ describe UsersController do
       response.body.should == created_user.to_json_without_auth
     end
 
+    it "should be able to DELETE user" do
+      delete :destroy, :id => bill.id, :format => :json
+
+      response.status.should == 403
+      expect {bill.reload}.to_not raise_exception(ActiveRecord::RecordNotFound)
+    end
+
   end
 
   describe "authenticated requests" do
@@ -60,6 +67,13 @@ describe UsersController do
       bill.hobby.should == "Programming"
 
       response.status.should == 204
+    end
+
+    it "should be able to DELETE user" do
+      delete :destroy, :id => bill.id, :uuid => bill.uuid, :secret_token => bill.secret_token, :format => :json
+
+      response.status.should == 204
+      expect {bill.reload}.to raise_exception(ActiveRecord::RecordNotFound)
     end
 
   end

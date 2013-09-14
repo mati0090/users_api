@@ -22,6 +22,12 @@ class UsersController < ApplicationController
     respond_with user, :only => available_fields
   end
 
+  def destroy
+    user.destroy
+
+    respond_with user
+  end
+
   private
     def user
       @user ||= params[:id] ? User.find(params[:id]) : User.new
