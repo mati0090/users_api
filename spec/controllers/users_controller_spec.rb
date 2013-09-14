@@ -7,11 +7,12 @@ class ActiveRecord::Base
 end
 
 describe UsersController do
-  let!(:bill) {User.create!(:first_name => "Bill", :last_name => "Gates", :hobby => "Philanthropy")}
-  let!(:bob)  {User.create!(:first_name => "Bob", :last_name => "Dylan", :hobby => "Signing")}
+  let!(:bill)     {User.create!(:first_name => "Bill", :last_name => "Gates", :hobby => "Philanthropy")}
+  let!(:bob)      {User.create!(:first_name => "Bob", :last_name => "Dylan", :hobby => "Signing")}
+  let(:new_user_attributes) { {:first_name => "Adam", :last_name => "Smith", :hobby => "Economy"} }
   let(:new_bill_attributes) { {:hobby => "Programming"} }
 
-  describe "GET requests without authentication" do
+  describe "requests without authentication" do
 
     it "should response with all users" do
       get :index, :format => :json
@@ -30,6 +31,15 @@ describe UsersController do
       put :update, :id => bill.id, :format => :json, :user => new_bill_attributes
 
       response.status.should == 403
+    end
+
+    it "should be able to create user sending POST request" do
+      post :create, :format => :json, :user => new_user_attributes
+
+      created_user = User.find_by_first_name("Adam")
+
+      response.status.should == 201
+      response.body.should == created_user.to_json_without_auth
     end
 
   end

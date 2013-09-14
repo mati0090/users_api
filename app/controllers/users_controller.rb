@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   respond_to :json
-  before_filter :authenticate, :except => [:index, :show]
+  before_filter :authenticate, :except => [:index, :show, :create]
 
   def index
     respond_with users, :except => User::RESTRICTED_FIELDS
@@ -16,9 +16,15 @@ class UsersController < ApplicationController
     respond_with user
   end
 
+  def create
+    user.update_attributes(params[:user])
+
+    respond_with user, :only => available_fields
+  end
+
   private
     def user
-      User.find(params[:id]) if params[:id]
+      @user ||= params[:id] ? User.find(params[:id]) : User.new
     end
 
     def users
