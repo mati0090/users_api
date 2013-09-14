@@ -7,5 +7,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :first_name, :hobby, :last_name
 
+  validates_presence_of :first_name, :hobby, :last_name
+
   RESTRICTED_FIELDS = ['created_at', 'updated_at']
 end

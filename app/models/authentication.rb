@@ -4,6 +4,8 @@ class Authentication < ActiveRecord::Base
 
   before_save :generate_values
 
+  validates_presence_of :user
+
   private
 
     def generate_values
