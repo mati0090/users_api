@@ -1,6 +1,6 @@
 class Authentication < ActiveRecord::Base
   belongs_to :user
-  attr_accessible :secret_token, :uuid
+  attr_accessible nil
 
   before_save :generate_values
 
